@@ -1,45 +1,42 @@
 ---
-- name: "update apt packages."
-  become: yes
+- name: Update apt packages
+  become: true
   apt:
     update_cache: yes
+    cache_valid_time: 3600
 
-- name: "upgrade packages"
-  become: yes
+- name: Upgrade packages
+  become: true
   apt:
-    upgrade: yes
+    upgrade: dist
 
-
-- name: remove dependencies that are no longer required
-  become: yes
+- name: Install dependencies (Node.js and NPM)
+  become: true
   apt:
-    autoremove: yes
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - nodejs
+    - npm
 
-- name: "install dependencies."
-  become: yes
-  apt:
-    name: ["nodejs", "npm"]
-    state: latest
-    update_cache: yes
-
-- name: "install pm2"
-  become: yes
+- name: Install PM2
+  become: true
   npm:
     name: pm2
     global: yes
-    production: yes
-    state: present
 
-- name: Creates directory
+- name: Create web directory
+  become: true
   file:
     path: ~/web
     state: directory
 
-- name: Copy index test page
-  template:
-    src: "files/index.js"
-    dest: "~/web/index.js"
+- name: Copy index.js test page
+  become: true
+  copy:
+    src: files/index.js
+    dest: ~/web/index.js
 
-- name: Executing node
-  shell: |
-    pm2 start ~/web/index.js -f
+- name: Start web server with PM2
+  become: true
+  shell: pm2 start ~/web/index.js -f
