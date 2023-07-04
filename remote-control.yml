@@ -1,7 +1,6 @@
 - name: Exercise for setting up a web server in an EC
   # Use the public IP if the VM is already created
-  hosts: 184.73.115.115
-  # hosts: all
+  hosts: all
   user: ubuntu
   become: true
   become_method: sudo

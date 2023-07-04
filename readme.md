@@ -19,3 +19,23 @@ ansible-playbook -i inventory.ini remote-control.yml --private-key=~/.ssh/udacit
 ```
 
 ## Exercise: Infrastructure Creation
+
+CircleCI workflow should be
+
+```
+workflows:
+  myWorkflow:
+    jobs:
+      - create_infrastructure
+```
+
+## Exercise: Config and Deployment
+
+Keep previos EC2 instance then update CircleCI workflows
+
+```
+workflows:
+  myWorkflow:
+    jobs:
+      - configure_infrastructure
+```
